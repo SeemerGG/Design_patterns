@@ -11,3 +11,7 @@ def count_min_el(mass) #возвращает количество минимал
 	return mass.reduce(0) {|count, x| min == x ? count+=1 : count} 
 end 
 
+def sort_by_count(mass) #сортирует по частоте встречаемости элементов (по убыванию)
+	return mass.sort_by {|x| mass.count(x)}.reverse
+end
+
