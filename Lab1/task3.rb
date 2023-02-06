@@ -7,5 +7,12 @@ def min_el(mass) #функция принимает массив чисел и �
 end
 
 
+def first_pos_el(mass) #функция принимает массив чисел и находит номер первого положительного элемента
+	i = 0
+	while i < mass.size
+		mass[i] > 0 ? (return i) : i += 1
+	end
+end
 
-puts min_el(ARGV[0].each_char.map(&:to_i))
+mass = ARGV.map(&:to_i)
+puts min_el(mass), "  " , first_pos_el(mass) 
