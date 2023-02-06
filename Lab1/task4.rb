@@ -15,3 +15,18 @@ def sort_by_count(mass) #сортирует по частоте встречае
 	return mass.sort_by {|x| mass.count(x)}.reverse
 end
 
+def select_method(num_method, file_name) #функция принимает два значения номер функция и имя файла (путь) с массивом чисел возвращает значение выбраной функции указаного массива 
+	mass = IO.read(file_name).split.map(&:to_i)
+	case num_method
+		when "1"
+			return cyclic_shift(mass)
+		when "2"
+			return count_evan(mass)
+		when "3"
+			return count_min_el(mass)
+		when "4" 
+			return sort_by_count(mass)
+	end
+end
+
+puts select_method(ARGV[0], ARGV[1])
