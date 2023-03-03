@@ -5,12 +5,16 @@ class Student
 
         @first_name, @last_name, @patronymic = first_name, last_name, patronymic
 
-        @tel_num, @telegram, @mail, @git, @id = tel_num, telegram, mail, git, id
-
+        @telegram, @mail, @git, @id =  telegram, mail, git, id
+        @tel_num = Student.tel_num_corect(tel_num) ? tel_num : nil 
     end
 
     def to_s
-        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @git+"\n": ""}"
+        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @id+"\n": ""}"
+    end
+    
+    def self.tel_num_corect(tel_num)
+       return /\+?\d{11,13}/ === tel_num 
     end
 
     def output_to_screen
