@@ -8,3 +8,6 @@ student1.output_to_screen
 student2.output_to_screen
 student3.output_to_screen
 
+student1.mail= "ddhm015@gmail.com"
+
+student1.output_to_screen
