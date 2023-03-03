@@ -8,6 +8,14 @@ class Student
 
     end
 
+    def to_s
+        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @git+"\n": ""}"
+    end
+
+    def output_to_screen
+        puts to_s
+    end
+    
     def get_first_name
         @first_name
     end
