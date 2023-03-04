@@ -4,12 +4,7 @@ class Student
     def initialize(last_name:, first_name:, patronymic:, tel_num: nil, telegram: nil, mail: nil, git: nil, id: nil)
 
         @first_name, @last_name, @patronymic = first_name, last_name, patronymic
-
-        @telegram = Student.telegram_correct?(telegram) ? telegram : nil
-        @mail = Student.mail_correct?(mail) ? mail : nil
-        @git = Student.git_correct?(git) ? git : nil
-        @id = Student.id_correct?(id) ? id : nil
-        @tel_num = Student.tel_num_correct?(tel_num) ? tel_num : nil 
+        set_contacts(telegram, mail, git, id, tel_num)
 
     end
 
@@ -32,7 +27,15 @@ class Student
         end
         return false 
     end 
-    
+
+    def set_contacts(telegram, mail, git, id, tel_num)
+        @telegram = Student.telegram_correct?(telegram) ? telegram : nil
+        @mail = Student.mail_correct?(mail) ? mail : nil
+        @git = Student.git_correct?(git) ? git : nil
+        @id = Student.id_correct?(id) ? id : nil
+        @tel_num = Student.tel_num_correct?(tel_num) ? tel_num : nil
+    end
+
     def self.tel_num_correct?(var)
        return /^\+?\d{11,13}/ === var 
     end
