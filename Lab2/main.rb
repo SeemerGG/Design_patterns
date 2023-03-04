@@ -12,3 +12,7 @@ student1.mail= "ddhm015@gmail.com"
 
 
 student3.output_to_screen
+
+puts student1.contact_and_git?
+
+puts student3.contact_and_git?

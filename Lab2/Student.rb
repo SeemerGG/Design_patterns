@@ -18,6 +18,21 @@ class Student
         return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @id+"\n": ""}"
     end
     
+    def contact_and_git?()
+        if(git != nil)
+            if(telegram != nil)
+                return true 
+            end
+            if(tel_num != nil)
+                return true 
+            end
+            if(mail != nil)
+                return true 
+            end
+        end
+        return false 
+    end 
+    
     def self.tel_num_correct?(var)
        return /^\+?\d{11,13}/ === var 
     end
