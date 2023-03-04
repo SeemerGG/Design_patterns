@@ -3,14 +3,23 @@ class Student
     
     def initialize(last_name:, first_name:, patronymic:, tel_num: nil, telegram: nil, mail: nil, git: nil, id: nil)
 
-        @first_name, @last_name, @patronymic = first_name, last_name, patronymic
+        @first_name = first_name
+        @last_name = last_name
+        @patronymic = patronymic
         set_contacts(telegram, mail, git, id, tel_num)
 
     end
 
-    
+    def set_contacts(telegram, mail, git, id, tel_num)
+        @telegram = Student.telegram_correct?(telegram) ? telegram : nil
+        @mail = Student.mail_correct?(mail) ? mail : nil
+        @git = Student.git_correct?(git) ? git : nil
+        @id = Student.id_correct?(id) ? id : nil
+        @tel_num = Student.tel_num_correct?(tel_num) ? tel_num : nil
+    end
+
     def to_s
-        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @id+"\n": ""}"
+        return "#{last_name}\n#{first_name}\n#{patronymic}\n#{tel_num!=nil ? tel_num+"\n": "" }#{telegram!=nil ? telegram+"\n": ""}#{mail!=nil ? mail+"\n" : ""}#{git!=nil ? git+"\n": ""}#{id!=nil ? id+"\n": ""}"
     end
     
     def contact_and_git?()
@@ -27,14 +36,6 @@ class Student
         end
         return false 
     end 
-
-    def set_contacts(telegram, mail, git, id, tel_num)
-        @telegram = Student.telegram_correct?(telegram) ? telegram : nil
-        @mail = Student.mail_correct?(mail) ? mail : nil
-        @git = Student.git_correct?(git) ? git : nil
-        @id = Student.id_correct?(id) ? id : nil
-        @tel_num = Student.tel_num_correct?(tel_num) ? tel_num : nil
-    end
 
     def self.tel_num_correct?(var)
        return /^\+?\d{11,13}/ === var 
@@ -56,31 +57,36 @@ class Student
         return /^[0-9]+$/ === var
     end
 
-    def output_to_screen
-        puts to_s
-    end
-
     def first_name=(var)
-        @first_name = var
+        first_name = var
     end
 
     def last_name=(var)
-        @last_name
+        last_name
     end
 
     def patronymic=(var)
-        @patronymic=var
+        patronymic=var
     end
 
     def git=(var)
-        @git=var
+        Student.git_correct?(var) ? git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
     end
 
     def mail=(var)
-        @mail = var
+        Student.mail_correct?(var) ? @mail = var : (raise 'Ссылка на почту не удовлетворяет шаблону!')
     end
 
     def id=(var)
-        @id=var
+        Student.id_correct?(var) ? id = var : (raise 'Идентификационный номер не удовлетворяет шаблону!')
     end
+
+    def tel_num=(var)
+        Student.tel_num_correct?(var) ? tel_num = var : (raise 'Номер не удовлетворяет шаблону!')
+    end
+
+    def telegram=(var)
+        Student.telegram_correct?(var) ? telegram = var : (raise 'ССылка на телеграм не удовлетворяет шаблону!')
+    end
+
 end
