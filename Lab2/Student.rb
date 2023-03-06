@@ -3,19 +3,18 @@ class Student
     
     def initialize(last_name:, first_name:, patronymic:, tel_num: nil, telegram: nil, mail: nil, git: nil, id: nil)
 
-        @first_name = first_name
-        @last_name = last_name
-        @patronymic = patronymic
-        set_contacts(telegram, mail, git, id, tel_num)
-
+        self.first_name = first_name
+        self.last_name = last_name
+        self.patronymic = patronymic
+        self.id = id
+        self.git = git
+        set_contacts(telegram:telegram, mail:mail, tel_num:tel_num)
     end
-
-    def set_contacts(telegram, mail, git, id, tel_num)
-        @telegram = Student.telegram_correct?(telegram) ? telegram : nil
-        @mail = Student.mail_correct?(mail) ? mail : nil
-        @git = Student.git_correct?(git) ? git : nil
-        @id = Student.id_correct?(id) ? id : nil
-        @tel_num = Student.tel_num_correct?(tel_num) ? tel_num : nil
+    
+    def set_contacts(telegram:nil, mail:nil ,tel_num:nil)
+        self.tel_num = tel_num
+        self.mail = mail
+        self.telegram = telegram
     end
 
     def to_s
@@ -58,35 +57,55 @@ class Student
     end
 
     def first_name=(var)
-        first_name = var
+        @first_name = var
     end
 
     def last_name=(var)
-        last_name
+        @last_name=var
     end
 
     def patronymic=(var)
-        patronymic=var
+        @patronymic=var
     end
 
     def git=(var)
-        Student.git_correct?(var) ? git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
+        if(var == nil)
+            @git = var
+        else
+            Student.git_correct?(var) ? @git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
+        end
     end
 
     def mail=(var)
-        Student.mail_correct?(var) ? @mail = var : (raise 'Ссылка на почту не удовлетворяет шаблону!')
+        if(var == nil)
+            @mail = var
+        else
+            Student.mail_correct?(var) ? @mail = var :  (raise 'Ссылка на почту не удовлетворяет шаблону!')
+        end
     end
 
     def id=(var)
-        Student.id_correct?(var) ? id = var : (raise 'Идентификационный номер не удовлетворяет шаблону!')
+        if(var == nil)
+            @id = var
+        else
+            Student.id_correct?(var) ? @id = var : (raise 'Идентификационный номер не удовлетворяет шаблону!')
+        end
     end
 
     def tel_num=(var)
-        Student.tel_num_correct?(var) ? tel_num = var : (raise 'Номер не удовлетворяет шаблону!')
+        if(var == nil)
+            @tel_num = var
+        else
+            Student.tel_num_correct?(var) ? @tel_num = var : (raise 'Номер не удовлетворяет шаблону!')
+        end
     end
 
     def telegram=(var)
-        Student.telegram_correct?(var) ? telegram = var : (raise 'ССылка на телеграм не удовлетворяет шаблону!')
+        if(var == nil)
+            @telegram = var
+        else
+            Student.telegram_correct?(var) ? @telegram = var : (raise 'ССылка на телеграм не удовлетворяет шаблону!')
+        end
     end
 
 end
