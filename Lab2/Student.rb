@@ -1,8 +1,9 @@
 require 'json'
 require 'racc/exception'
 require 'set'
-class Student
-    attr_reader :last_name, :first_name, :patronymic, :tel_num, :telegram, :mail, :git, :id
+require_relative 'BasicStudent'
+class Student < BasicStudent
+    attr_reader :last_name, :first_name, :patronymic, :tel_num, :telegram, :mail
     
     def initialize(last_name:, first_name:, patronymic:, tel_num: nil, telegram: nil, mail: nil, git: nil, id: nil)
 
@@ -23,29 +24,13 @@ class Student
         else
             raise ArgumentError, "Неверное именнование атрибутов!"
         end
-        #begin
-        #hash = JSON.parse(str, {symbolize_names: true})
-        #Student.new(**hash)
-        #rescue ArgumentError => e 
-        #    puts e.message
-        #end
     end
-
 
     def getFio()
         return {:fio => "#{@last_name} #{first_name[0]}. #{patronymic[0]}."}
     end 
 
     def getContact()
-        # if(@telegram != nil)
-        #     return '{"contact": "telegram: #{@telegram}"}'
-        # elsif(@mail != nil)
-        #     return '{"contact": "mail: #{@mail}"}'
-        # elsif(@tel_num != nil)
-        #     return '{"contact": "tel_num: #{@tel_num}"}'
-        # else 
-        #     return '{"contact": nil}'
-        # end
         if(@telegram != nil)
             return {:contact => "telegram: #{@telegram}"}
         elsif(@tel_num != nil)
@@ -118,13 +103,7 @@ class Student
         @patronymic=var
     end
 
-    def git=(var)
-        if(var == nil)
-            @git = var
-        else
-            Student.git_correct?(var) ? @git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
-        end
-    end
+    
 
     def mail=(var)
         if(var == nil)
@@ -142,6 +121,14 @@ class Student
         end
     end
 
+    def git=(var)
+        if(var == nil)
+            @git = var
+        else
+            Student.git_correct?(var) ? @git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
+        end
+    end
+    
     def tel_num=(var)
         if(var == nil)
             @tel_num = var

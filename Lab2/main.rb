@@ -21,7 +21,7 @@ puts student1.getInfo
 
 studentShort1 = StudentShort.fromStudent(student3)
 
-studentShort2 = StudentShort.fromStr("1234",student3.getInfo)
+studentShort2 = StudentShort.new(id:"1234",str:student3.getInfo)
 
 puts studentShort1
 
