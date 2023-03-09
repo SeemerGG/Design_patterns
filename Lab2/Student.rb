@@ -26,6 +26,30 @@ class Student < BasicStudent
         end
     end
 
+    def self.read_from_txt(filepath)
+        begin
+            students = []
+            File.readlines(filepath).each do |line|
+                students.push(self.fromStr(line))
+            end
+            return students
+        rescue => exception
+            puts exception.message
+        end
+    end
+
+    def self.write_to_txt(filepath, students)
+        begin
+            file = File.open(filepath, "w")
+            students.each do |student|
+                file.puts student
+            end
+            file.close
+        rescue => exception
+            puts exception.message
+        end
+    end
+
     def getFio()
         return {:fio => "#{@last_name} #{first_name[0]}. #{patronymic[0]}."}
     end 
@@ -53,7 +77,7 @@ class Student < BasicStudent
     end
 
     def to_s
-        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @id+"\n": ""}"
+        return JSON.generate({:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? "#{@id}" : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil})
     end
     
     def contact_and_git?()
@@ -103,8 +127,6 @@ class Student < BasicStudent
         @patronymic=var
     end
 
-    
-
     def mail=(var)
         if(var == nil)
             @mail = var
@@ -128,7 +150,7 @@ class Student < BasicStudent
             Student.git_correct?(var) ? @git = var : (raise 'Ссылка на git не удовлетворяет шаблону!')
         end
     end
-    
+
     def tel_num=(var)
         if(var == nil)
             @tel_num = var
