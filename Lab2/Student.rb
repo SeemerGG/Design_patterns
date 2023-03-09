@@ -1,3 +1,6 @@
+require 'json'
+require 'racc/exception'
+require 'set'
 class Student
     attr_reader :last_name, :first_name, :patronymic, :tel_num, :telegram, :mail, :git, :id
     
@@ -11,6 +14,53 @@ class Student
         set_contacts(telegram:telegram, mail:mail, tel_num:tel_num)
     end
     
+    def self.fromStr(str)
+        hash = JSON.parse(str, {symbolize_names: true})
+        hashSet = hash.keys.to_set
+        nameSet = Set.new([:first_name, :last_name, :patronymic, :git, :mail, :id, :telegram, :tel_num])
+        if(nameSet.superset?(hashSet))
+            Student.new(**hash)
+        else
+            raise ArgumentError, "Неверное именнование атрибутов!"
+        end
+        #begin
+        #hash = JSON.parse(str, {symbolize_names: true})
+        #Student.new(**hash)
+        #rescue ArgumentError => e 
+        #    puts e.message
+        #end
+    end
+
+
+    def getFio()
+        return {:fio => "#{@last_name} #{first_name[0]}. #{patronymic[0]}."}
+    end 
+
+    def getContact()
+        # if(@telegram != nil)
+        #     return '{"contact": "telegram: #{@telegram}"}'
+        # elsif(@mail != nil)
+        #     return '{"contact": "mail: #{@mail}"}'
+        # elsif(@tel_num != nil)
+        #     return '{"contact": "tel_num: #{@tel_num}"}'
+        # else 
+        #     return '{"contact": nil}'
+        # end
+        if(@telegram != nil)
+            return {:contact => "telegram: #{@telegram}"}
+        elsif(@tel_num != nil)
+            return {:contact => "tel_num: #{@tel_num}"}
+        elsif(@mail != nil)
+            return {:contact => "mail: #{@mail}"} 
+        else
+            return {:contact => nil}
+        end
+    end 
+
+    def getInfo()
+        return JSON.generate({}.merge(getFio()).merge({:git => @git!=nil ? "#{@git}" : nil}).merge(getContact()))
+    end
+
     def set_contacts(telegram:nil, mail:nil ,tel_num:nil)
         self.tel_num = tel_num
         self.mail = mail
@@ -18,18 +68,18 @@ class Student
     end
 
     def to_s
-        return "#{last_name}\n#{first_name}\n#{patronymic}\n#{tel_num!=nil ? tel_num+"\n": "" }#{telegram!=nil ? telegram+"\n": ""}#{mail!=nil ? mail+"\n" : ""}#{git!=nil ? git+"\n": ""}#{id!=nil ? id+"\n": ""}"
+        return "#{@last_name}\n#{@first_name}\n#{@patronymic}\n#{@tel_num!=nil ? @tel_num+"\n": "" }#{@telegram!=nil ? @telegram+"\n": ""}#{@mail!=nil ? @mail+"\n" : ""}#{@git!=nil ? @git+"\n": ""}#{@id!=nil ? @id+"\n": ""}"
     end
     
     def contact_and_git?()
-        if(git != nil)
-            if(telegram != nil)
+        if(@git != nil)
+            if(@telegram != nil)
                 return true 
             end
-            if(tel_num != nil)
+            if(@tel_num != nil)
                 return true 
             end
-            if(mail != nil)
+            if(@mail != nil)
                 return true 
             end
         end
