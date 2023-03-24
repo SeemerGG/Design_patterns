@@ -2,6 +2,7 @@ require 'json'
 require 'racc/exception'
 require 'set'
 require_relative 'BasicStudent'
+
 class Student < BasicStudent
     attr_reader :last_name, :first_name, :patronymic, :tel_num, :telegram, :mail
     
@@ -25,7 +26,7 @@ class Student < BasicStudent
             raise ArgumentError, "Неверное именнование атрибутов!"
         end
     end
-
+    
     def self.read_from_txt(filepath)
         begin
             students = []
@@ -95,47 +96,23 @@ class Student < BasicStudent
         return false 
     end 
 
-    def self.tel_num_correct?(var)
-       return /^\+?\d{11,13}/ === var 
-    end
-
-    def self.telegram_correct?(var)
-        return /^https:\/\/t.me\/*/ === var
-    end 
-
-    def self.mail_correct?(var)
-        return /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i === var
-    end
-
-    def self.git_correct?(var)
-        return /^https:\/\/*.*\/*/ === var
-    end
-
-    def self.id_correct?(var)
-        return /^[0-9]+$/ === var
-    end
-
-    def self.name_correct?(var)
-        return /^[а-я, А-Я]+$/ === var
-    end
-
     def first_name=(var)
-        Student.name_correct?(var) ? @first_name = var : (raise ArgumentError,'Неправильное имя!')
+        BasicStudent.name_correct?(var) ? @first_name = var : (raise ArgumentError,'Неправильное имя!')
     end
 
     def last_name=(var)
-        Student.name_correct?(var) ? @last_name = var : (raise ArgumentError,'Неправильная фамилия!')
+        BasicStudent.name_correct?(var) ? @last_name = var : (raise ArgumentError,'Неправильная фамилия!')
     end
 
     def patronymic=(var)
-        Student.name_correct?(var) ? @patronymic = var : (raise ArgumentError,'Неправильное отчество!')
+        BasicStudent.name_correct?(var) ? @patronymic = var : (raise ArgumentError,'Неправильное отчество!')
     end
 
     def mail=(var)
         if(var == nil)
             @mail = var
         else
-            Student.mail_correct?(var) ? @mail = var :  (raise ArgumentError, 'Ссылка на почту не удовлетворяет шаблону!')
+            BasicStudent.mail_correct?(var) ? @mail = var :  (raise ArgumentError, 'Ссылка на почту не удовлетворяет шаблону!')
         end
     end
 
@@ -143,7 +120,7 @@ class Student < BasicStudent
         if(var == nil)
             @id = var
         else
-            Student.id_correct?(var) ? @id = var : (raise ArgumentError, 'Идентификационный номер не удовлетворяет шаблону!')
+            BasicStudent.id_correct?(var) ? @id = var : (raise ArgumentError, 'Идентификационный номер не удовлетворяет шаблону!')
         end
     end
 
@@ -151,7 +128,7 @@ class Student < BasicStudent
         if(var == nil)
             @git = var
         else
-            Student.git_correct?(var) ? @git = var : (raise ArgumentError,'Ссылка на git не удовлетворяет шаблону!')
+            BasicStudent.git_correct?(var) ? @git = var : (raise ArgumentError,'Ссылка на git не удовлетворяет шаблону!')
         end
     end
 
@@ -159,7 +136,7 @@ class Student < BasicStudent
         if(var == nil)
             @tel_num = var
         else
-            Student.tel_num_correct?(var) ? @tel_num = var : (raise ArgumentError, 'Номер не удовлетворяет шаблону!')
+            BasicStudent.tel_num_correct?(var) ? @tel_num = var : (raise ArgumentError, 'Номер не удовлетворяет шаблону!')
         end
     end
 
@@ -167,7 +144,7 @@ class Student < BasicStudent
         if(var == nil)
             @telegram = var
         else
-            Student.telegram_correct?(var) ? @telegram = var : (raise ArgumentError, 'ССылка на телеграм не удовлетворяет шаблону!')
+            BasicStudent.telegram_correct?(var) ? @telegram = var : (raise ArgumentError, 'ССылка на телеграм не удовлетворяет шаблону!')
         end
     end
 
