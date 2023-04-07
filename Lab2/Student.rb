@@ -39,6 +39,17 @@ class Student < BasicStudent
         end
     end
 
+    ###########
+    def self.read_from_json(filepath)
+        begin
+            hash = JSON.parse(str, {symbolize_names: true})
+            
+        rescue => exception
+
+            
+        else
+            
+        end
     def self.write_to_txt(filepath, students)
         begin
             file = File.open(filepath, "w")

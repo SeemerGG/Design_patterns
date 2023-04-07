@@ -38,7 +38,7 @@ class Data_list
         return str
     end 
 
-    private :mass, :mass=, :selected=, :selected
+    private :mass, :selected=, :selected
     #Возвращает массив значений каждого поля
     def values(obj)
         []

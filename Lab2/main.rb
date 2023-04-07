@@ -3,6 +3,7 @@ require_relative 'StudentShort'
 require_relative 'Data_list_student_short.rb'
 require_relative 'Data_list.rb'
 require_relative 'Data_list.rb'
+require_relative 'Student_list_txt.rb'
 
 student1 = Student.new(last_name:"Курбатский", first_name:"Владимир", patronymic:"Александрович")
 student2 = Student.new(last_name:"Чутчев", first_name:"Сергей", patronymic:"Сергеевич", tel_num:"88008553535")
@@ -42,3 +43,9 @@ puts ''
 var = Data_list_student_short.new([studentShort1, studentShort2])
 puts var
 puts var.get_data
+
+puts "____________________________________________________________________"
+
+list_txt = Student_list_txt.new('data_about_student.txt')
+list_txt.read_all()
+puts list_txt.get_k_n_student_short_list(k:0,n:2)
