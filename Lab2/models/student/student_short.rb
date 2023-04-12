@@ -1,5 +1,5 @@
-require_relative 'Student'
-require_relative 'BasicStudent'
+require_relative 'student'
+require_relative 'basic_student'
 require 'json'
 
 class StudentShort < BasicStudent
@@ -37,7 +37,7 @@ class StudentShort < BasicStudent
         StudentShort.fromStr(id: studentObj.id, str:studentObj.getInfo)
     end
 
-    def to_s()
+    def to_s
         return JSON.generate({:id => "#{@id}", :fio => "#{@fio}", :git => "#{@git}", :contact => "#{@contact}"})
     end
 

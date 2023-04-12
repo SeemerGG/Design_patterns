@@ -2,8 +2,8 @@ class Data_table
     attr_accessor :table
     attr_reader :count_line, :count_column
 
-    def initialize(entiti)
-        self.table = entiti
+    def initialize(entity)
+        self.table = entity
         @count_column = table[0].count
         @count_line = table.count
     end
