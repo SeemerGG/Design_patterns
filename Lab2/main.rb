@@ -49,3 +49,16 @@ puts "____________________________________________________________________"
 list_txt = Student_list_txt.new('data_about_student.txt')
 list_txt.read_all()
 puts list_txt.get_k_n_student_short_list(k:0,n:2)
+
+puts '+++++++++++++++++++++++++++++++'
+
+student_from_json = Student.read_from_json('data_about_student.json')
+#puts student_from_json
+
+Student.write_to_txt('data_generated_from_json.json',student_from_json)
+puts '==================================================='
+students_from_yaml = Student.read_from_yaml('data_generation_yaml.yaml')
+students_from_yaml.map{|i| puts i}
+
+
+

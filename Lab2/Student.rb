@@ -1,6 +1,7 @@
 require 'json'
 require 'racc/exception'
 require 'set'
+require 'yaml'
 require_relative 'BasicStudent'
 
 class Student < BasicStudent
@@ -42,14 +43,51 @@ class Student < BasicStudent
     ###########
     def self.read_from_json(filepath)
         begin
-            hash = JSON.parse(str, {symbolize_names: true})
-            
+            students = []
+            data_from_file = File.read(filepath)
+            hash = JSON.parse(data_from_file, {symbolize_names: true})
+            hash.each do |student|
+                students.push(Student.new(**student))
+            end
+            return students
         rescue => exception
-
-            
-        else
-            
+            puts exception.message
         end
+    end
+
+    def self.write_to_json(filepath, students)
+        begin
+            File.open(filepath, "w").puts JSON.generate(students)
+        rescue => exception
+            puts exception.message
+        end
+    end
+
+    def self.write_to_yaml(filepath, students)
+        begin
+        file = File.open(filepath, "w")
+        students.each do |student|
+            file.puts student.to_yaml
+        end
+        rescue => exception
+            puts exception.message
+        end
+    end
+
+    def self.read_from_yaml(filepath)
+        begin
+            students = []
+            hash = YAML.
+            puts hash
+            hash.each do |student|
+                students.push(Student.new(**student))
+            end
+            return students
+        rescue => exception
+            puts exception.message
+        end
+    end
+
     def self.write_to_txt(filepath, students)
         begin
             file = File.open(filepath, "w")

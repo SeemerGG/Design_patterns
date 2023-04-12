@@ -1,0 +1,27 @@
+--- !ruby/object:Student
+first_name: Роман
+last_name: Якухнов
+patronymic: Андреевич
+id: '2345'
+git: https://github.com/RedMag
+tel_num:
+mail: ssdfgdf@gmail.com
+telegram: https://t.me/RedMag
+--- !ruby/object:Student
+first_name: Сергей
+last_name: Чутчев
+patronymic: Сергеевич
+id: '25'
+git: https://github.com/wintttr
+tel_num:
+mail: df@gmail.com
+telegram: https://t.me/wintttr
+--- !ruby/object:Student
+first_name: Владимир
+last_name: Курбатский
+patronymic: Александрович
+id: '5'
+git: https://github.com/SeemerGG
+tel_num:
+mail: ssdf@gmail.com
+telegram: https://t.me/SeemerGG
