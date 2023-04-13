@@ -5,7 +5,11 @@ class BasicStudentList
 
     def initialize(file_path)
         self.data = []
-        @file_path = file_path
+        if(File.exist?(file_path))
+            @file_path = file_path
+        else
+            raise IOError, "Файл не найден!"
+            end
     end
 
     def read_all

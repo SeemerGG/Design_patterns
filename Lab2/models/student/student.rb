@@ -56,18 +56,14 @@ class Student < BasicStudent
 
     def self.read_from_yaml(filepath)
         begin
-            students = []
-            hash = YAML.safe_load_file(filepath, permitted_classes: [Student])
+            YAML.safe_load_file(filepath, permitted_classes: [Student, Symbol])
             #hash = YAML.load(File.read(filepath), permitted_classes: [Student])
-            puts hash
-            hash.each do |student|
-                students.push(Student.new(**student))
-            end
-            return students
+            #puts hash
         rescue => exception
             puts exception.message
         end
     end
+
 
     def self.write_to_json(filepath, students)
         begin
@@ -85,6 +81,9 @@ class Student < BasicStudent
         rescue => exception
             puts exception.message
         end
+    end
+    def to_h
+        return Hash[[:first_name, :last_name, :patronymic, :tel_num, :telegram, :mail, :id, :git].collect{|i| [i, (self.send i.to_s)]}]
     end
 
     def self.write_to_txt(filepath, students)

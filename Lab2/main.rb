@@ -55,14 +55,22 @@ puts '+++++++++++++++++++++++++++++++'
 student_from_json = Student.read_from_json('resources/data_about_student.json')
 puts student_from_json
 
-Student.write_to_txt('data_generated_from_json.json',student_from_json)
-puts '==================================================='
+Student.write_to_txt('resources/data_generated_from_json.json',student_from_json)
+puts 'Запись, создание yaml'
+
+#puts student_from_json
 
 Student.write_to_yaml('resources/data_generation_yaml.yaml', student_from_json)
 
-
 students_from_yaml = Student.read_from_yaml('resources/data_generation_yaml.yaml')
-students_from_yaml.map{|i| puts i}
+
+puts students_from_yaml.class
+puts students_from_yaml.first.class
+puts students_from_yaml
+#students_from_yaml.map{|i| puts i}
+#
+
+
 
 
 
