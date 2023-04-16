@@ -4,6 +4,8 @@ require_relative 'models/data/data_list_student_short'
 require_relative 'models/data/data_list'
 require_relative 'models/data/data_list'
 require_relative 'models/student/student_list_txt'
+require_relative 'models/student/student_list_json'
+require_relative 'models/student/student_list_yaml'
 
 student1 = Student.new(last_name:"Курбатский", first_name:"Владимир", patronymic:"Александрович")
 student2 = Student.new(last_name:"Чутчев", first_name:"Сергей", patronymic:"Сергеевич", tel_num:"88008553535")
@@ -46,11 +48,6 @@ puts var.get_data
 
 puts "____________________________________________________________________"
 
-list_txt = StudentListTxt.new('resources/data_about_student.txt')
-list_txt.read_all()
-puts list_txt.get_k_n_student_short_list(k:0,n:2)
-
-puts '+++++++++++++++++++++++++++++++'
 
 student_from_json = Student.read_from_json('resources/data_about_student.json')
 puts student_from_json
@@ -68,8 +65,13 @@ puts students_from_yaml.class
 puts students_from_yaml.first.class
 puts students_from_yaml
 #students_from_yaml.map{|i| puts i}
-#
 
+puts "Проверка стратегии"
+basic_list = BasicStudentList.new('resources/data_about_student', StudentListTxt.new)
+
+basic_list.read_all
+basic_list.list_strategy = StudentListYaml.new
+basic_list.write_all
 
 
 

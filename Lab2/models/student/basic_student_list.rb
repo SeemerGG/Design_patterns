@@ -1,10 +1,10 @@
-
+require_relative 'student_list_strategy'
 class BasicStudentList
-    attr_accessor :data
+    attr_accessor :data, :list_strategy
     attr_reader :file_path
-
-    def initialize(file_path)
+    def initialize(file_path, list_strategy)
         self.data = []
+        self.list_strategy = list_strategy
         if(File.exist?(file_path))
             @file_path = file_path
         else
@@ -13,9 +13,11 @@ class BasicStudentList
     end
 
     def read_all
+        data = list_strategy.read_all(file_path)
     end
 
     def write_all
+        list_strategy.write_all(file_path, data)
     end
 
     def select(id)
