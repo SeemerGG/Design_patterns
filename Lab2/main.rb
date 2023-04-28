@@ -49,11 +49,9 @@ puts var.get_data
 puts "____________________________________________________________________"
 
 
-student_from_json = Student.read_from_json('resources/data_about_student.json')
+#student_from_json = Student.read_from_json('resources/data_about_student.json')
+student_from_json = Student.read_from_json('resources/proverka_json.json')
 puts student_from_json
-
-Student.write_to_txt('resources/data_generated_from_json.json',student_from_json)
-puts 'Запись, создание yaml'
 
 #puts student_from_json
 
@@ -65,14 +63,16 @@ puts students_from_yaml.class
 puts students_from_yaml.first.class
 puts students_from_yaml
 #students_from_yaml.map{|i| puts i}
+puts 'Проверка генерации json'
 
 puts "Проверка стратегии"
-basic_list = BasicStudentList.new('resources/data_about_student', StudentListTxt.new)
+basic_list = BasicStudentList.new('resources/data_about_student_strategy', StudentListJson.new)
 
 basic_list.read_all
+basic_list.list_strategy = StudentListTxt.new
+basic_list.write_all
 basic_list.list_strategy = StudentListYaml.new
 basic_list.write_all
-
 
 
 

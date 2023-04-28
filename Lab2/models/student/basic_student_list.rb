@@ -5,15 +5,11 @@ class BasicStudentList
     def initialize(file_path, list_strategy)
         self.data = []
         self.list_strategy = list_strategy
-        if(File.exist?(file_path))
-            @file_path = file_path
-        else
-            raise IOError, "Файл не найден!"
-            end
+        @file_path = file_path
     end
 
     def read_all
-        data = list_strategy.read_all(file_path)
+        self.data = list_strategy.read_all(file_path)
     end
 
     def write_all
@@ -35,13 +31,15 @@ class BasicStudentList
 
     def add_student(student)
         id = (self.data.map{|i| i.id}).max + 1
-        data << student.id=id
+        student.id = id
+        data << student
     end
 
     #Находит номер элемента с нужным id и на его место ставит новый элемент.
     #Вопрос: Нужно ли менять id новому елементу на тот который был?
     def change(id, student)
         i = self.data.find_index{|i| i.id == id}
+        student.id = id
         self.data[i] = student
     end
 

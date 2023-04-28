@@ -54,24 +54,23 @@ class Student < BasicStudent
         end
     end
 
+    def self.write_to_json(filepath, students)
+        begin
+            hash_students = students.map {|student| student.to_h}
+            File.open(filepath, "w").puts JSON.pretty_generate(hash_students) #CЮда смотрим
+        rescue => exception
+            puts exception.message
+        end
+    end
+
     def self.read_from_yaml(filepath)
         begin
             YAML.safe_load_file(filepath, permitted_classes: [Student, Symbol])
-            #hash = YAML.load(File.read(filepath), permitted_classes: [Student])
-            #puts hash
         rescue => exception
             puts exception.message
         end
     end
 
-
-    def self.write_to_json(filepath, students)
-        begin
-            File.open(filepath, "w").puts JSON.generate(students)
-        rescue => exception
-            puts exception.message
-        end
-    end
 
     def self.write_to_yaml(filepath, students)
         begin
@@ -81,9 +80,6 @@ class Student < BasicStudent
         rescue => exception
             puts exception.message
         end
-    end
-    def to_h
-        return Hash[[:first_name, :last_name, :patronymic, :tel_num, :telegram, :mail, :id, :git].collect{|i| [i, (self.send i.to_s)]}]
     end
 
     def self.write_to_txt(filepath, students)
@@ -127,7 +123,11 @@ class Student < BasicStudent
     def to_s
         return JSON.generate({:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? "#{@id}" : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil})
     end
-    
+
+    def to_h
+        return {:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? "#{@id}" : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil}
+    end
+
     def contact_and_git?()
         if(@git != nil)
             if(@telegram != nil)
