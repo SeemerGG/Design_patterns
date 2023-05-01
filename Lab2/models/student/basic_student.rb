@@ -21,7 +21,7 @@ class BasicStudent
     end
  
      def self.id_correct?(var)
-        return /^[0-9]+$/ === var
+        return var.is_a? Integer
      end
  
     def self.name_correct?(var)

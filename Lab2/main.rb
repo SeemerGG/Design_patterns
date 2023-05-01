@@ -6,10 +6,12 @@ require_relative 'models/data/data_list'
 require_relative 'models/student/student_list_txt'
 require_relative 'models/student/student_list_json'
 require_relative 'models/student/student_list_yaml'
+require_relative 'models/student/student_list_DB'
+require_relative 'models/student/student_db_connecting_singleton'
 
 student1 = Student.new(last_name:"Курбатский", first_name:"Владимир", patronymic:"Александрович")
 student2 = Student.new(last_name:"Чутчев", first_name:"Сергей", patronymic:"Сергеевич", tel_num:"88008553535")
-student3 = Student.fromStr('{"last_name":"Якухнов", "first_name":"Роман", "patronymic":"Андреевич", "git":"https://github.com/RedMag", "id":"2345", "telegram":"https://t.me/RedMag", "mail":"ssdfgdf@gmail.com"}')
+student3 = Student.fromStr('{"last_name":"Якухнов", "first_name":"Роман", "patronymic":"Андреевич", "git":"https://github.com/RedMag", "id":2345, "telegram":"https://t.me/RedMag", "mail":"ssdfgdf@gmail.com"}')
 
 puts student1
 puts student2
@@ -25,7 +27,7 @@ puts student1.getInfo
 
 studentShort1 = StudentShort.fromStudent(student3)
 
-studentShort2 = StudentShort.fromStr(id:"1234",str:student3.getInfo)
+studentShort2 = StudentShort.fromStr(id:1234,str:student3.getInfo)
 puts ''
 puts studentShort1
 puts studentShort2
@@ -62,8 +64,6 @@ students_from_yaml = Student.read_from_yaml('resources/data_generation_yaml.yaml
 puts students_from_yaml.class
 puts students_from_yaml.first.class
 puts students_from_yaml
-#students_from_yaml.map{|i| puts i}
-puts 'Проверка генерации json'
 
 puts "Проверка стратегии"
 basic_list = BasicStudentList.new('resources/data_about_student_strategy', StudentListJson.new)
@@ -73,6 +73,12 @@ basic_list.list_strategy = StudentListTxt.new
 basic_list.write_all
 basic_list.list_strategy = StudentListYaml.new
 basic_list.write_all
+
+puts "----------------------------------------------------------------------"
+
+db = StudentListDB.new(StudentDbConnectingSingleton.instance.client)
+
+puts db.size
 
 
 

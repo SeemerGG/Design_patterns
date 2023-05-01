@@ -38,7 +38,7 @@ class StudentShort < BasicStudent
     end
 
     def to_s
-        return JSON.generate({:id => "#{@id}", :fio => "#{@fio}", :git => "#{@git}", :contact => "#{@contact}"})
+        return JSON.generate({:id => @id, :fio => "#{@fio}", :git => "#{@git}", :contact => "#{@contact}"})
     end
 
 end

@@ -121,11 +121,11 @@ class Student < BasicStudent
     end
 
     def to_s
-        return JSON.generate({:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? "#{@id}" : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil})
+        return JSON.generate({:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? @id : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil})
     end
 
     def to_h
-        return {:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? "#{@id}" : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil}
+        return {:last_name => "#{@last_name}", :first_name => "#{@first_name}", :patronymic => "#{@patronymic}",:git => @git != nil ? "#{@git}" : nil, :id => @id != nil ? @id : nil, :telegram => @telegram != nil ? "#{@telegram}" : nil, :tel_num => @tel_num != nil ? "#{@tel_num}" : nil, :mail => @mail != nil ? "#{@mail}" : nil}
     end
 
     def contact_and_git?()

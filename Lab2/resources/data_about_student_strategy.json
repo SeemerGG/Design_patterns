@@ -4,7 +4,7 @@
     "first_name": "Роман",
     "patronymic": "Андреевич",
     "git": "https://github.com/RedMag",
-    "id": "2345",
+    "id": 2345,
     "telegram": "https://t.me/RedMag",
     "tel_num": null,
     "mail": "ssdfgdf@gmail.com"
@@ -14,7 +14,7 @@
     "first_name": "Сергей",
     "patronymic": "Сергеевич",
     "git": "https://github.com/wintttr",
-    "id": "25",
+    "id": 25,
     "telegram": "https://t.me/wintttr",
     "tel_num": null,
     "mail": "df@gmail.com"
@@ -24,7 +24,7 @@
     "first_name": "Владимир",
     "patronymic": "Александрович",
     "git": "https://github.com/SeemerGG",
-    "id": "5",
+    "id": 5,
     "telegram": "https://t.me/SeemerGG",
     "tel_num": null,
     "mail": "ssdf@gmail.com"
