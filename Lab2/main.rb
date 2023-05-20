@@ -9,6 +9,8 @@ require_relative 'models/student/student_list_yaml'
 require_relative 'models/student/student_list_DB'
 require_relative 'models/student/student_db_connecting_singleton'
 require_relative 'GUI/student_list_view'
+require 'fox16'
+include Fox
 # student1 = Student.new(last_name:"Курбатский", first_name:"Владимир", patronymic:"Александрович")
 # student2 = Student.new(last_name:"Чутчев", first_name:"Сергей", patronymic:"Сергеевич", tel_num:"88008553535")
 # student3 = Student.fromStr('{"last_name":"Якухнов", "first_name":"Роман", "patronymic":"Андреевич", "git":"https://github.com/RedMag", "id":2345, "telegram":"https://t.me/RedMag", "mail":"ssdfgdf@gmail.com"}')
@@ -82,4 +84,7 @@ require_relative 'GUI/student_list_view'
 #
 #
 #
-StudentListView.new()
+app = FXApp.new
+StudentListView.new(app)
+app.create
+app.run

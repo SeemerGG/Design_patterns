@@ -7,7 +7,7 @@ class StudentDbConnectingSingleton
         @client = Mysql2::Client.new(
           :host => '127.0.0.1',
           :username => 'root',
-          :password => '1234',
+          :password => 'vova0093',
           :database => 'student',
           :encoding => 'utf8'
         )
