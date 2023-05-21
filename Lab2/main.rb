@@ -9,6 +9,7 @@ require_relative 'models/student/student_list_yaml'
 require_relative 'models/student/student_list_DB'
 require_relative 'models/student/student_db_connecting_singleton'
 require_relative 'GUI/student_list_view'
+require_relative 'controller/student_list_controller'
 require 'fox16'
 include Fox
 # student1 = Student.new(last_name:"Курбатский", first_name:"Владимир", patronymic:"Александрович")

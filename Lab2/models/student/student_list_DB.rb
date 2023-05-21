@@ -13,13 +13,17 @@ class StudentListDB
       return Student.new(**row)
     end
   end
-  def get_k_n_student_short_list(k, n) # Не знаю как надо, делаю так
+  def get_k_n_student_short_list(k, n, data_list:nil ) # Не знаю как надо, делаю так
     mass = []
     result = client.query("select * from student where id >= #{k*n} and id <= #{k*n + n}", :symbolize_keys => true)
     result.each do |hash|
       mass << StudentShort.fromStudent(Student.new(**hash))
     end
-    return Data_list.new(mass)
+    if data_list.nil?
+      return Data_list.new(mass)
+    else
+      return data_list.mass = mass
+    end
   end
   def add_student(student)
     client.query("insert into student(last_name, first_name, patronymic, tel_num, telegram, mail, git) values " +

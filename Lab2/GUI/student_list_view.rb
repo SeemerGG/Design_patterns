@@ -1,10 +1,11 @@
+require_relative '../controller/student_list_controller'
 require 'fox16'
 include Fox
 
 
 class StudentListView < FXMainWindow
 
-  attr_accessor :table
+  attr_accessor :table, :controller, :column_names, :count_entities, :data_table
 
     def create_label(parent,text,x,y)
       FXLabel.new(parent, text , :opts => LAYOUT_EXPLICIT,
@@ -42,12 +43,21 @@ class StudentListView < FXMainWindow
       end
     end
 
-    def sort_at_fio(table)
-      table.each_row
+    def set_table_params(column_names, whole_entities_count)
+      self.column_names = column_names
+      self.count_entities = whole_entities_count
     end
+
+    def set_table_data(data_table)
+      self.data_table = data_table
+    end
+
+
     def initialize(app)
       super(app, "Hello, World!", :width => 1060, :height => 400)
-      
+
+      self.controller= StudentListController.new(self)
+
       tabbook = FXTabBook.new(self, :opts => LAYOUT_FILL) 
       student_tab = FXTabItem.new(tabbook, " Студенты ")
       student_page = FXVerticalFrame.new(tabbook,:opts => FRAME_RAISED|LAYOUT_FILL)
@@ -105,6 +115,8 @@ class StudentListView < FXMainWindow
 
       self.table.editable = false
 
+      self.controller.refresh_data
+
       btn_back=FXButton.new(frame, "<<", :opts=> BUTTON_NORMAL|LAYOUT_EXPLICIT, :x=>0,:y=>310,:height=>30,:width=>40)
       label_page = FXLabel.new(frame,"1",:opts=> BUTTON_INITIAL|LAYOUT_EXPLICIT,:x=>40,:y=>310,:height=>30,:width=>20)
       btn_next=FXButton.new(frame, ">>", :opts=> BUTTON_NORMAL|LAYOUT_EXPLICIT, :x=>60,:y=>310,:height=>30,:width=>40)
@@ -124,17 +136,17 @@ class StudentListView < FXMainWindow
       edit_button.enabled = false
 
       self.table.connect(SEL_COMMAND) do
-          if get_select_rows() == 0 then 
+          if get_select_rows == 0
             edit_button.enabled = true
             delete_button.enabled = true
           end
 
-          if get_select_rows() > 0 then
+          if get_select_rows > 0
             delete_button.enabled = true
             edit_button.enabled = false
           end
 
-          if get_select_rows() < 0 then 
+          if get_select_rows < 0
             delete_button.enabled = false
             edit_button.enabled = false
           end
@@ -146,41 +158,41 @@ class StudentListView < FXMainWindow
       extras_page = FXVerticalFrame.new(tabbook,:opts => FRAME_RAISED|LAYOUT_FILL)
 
       #Заполняем таблицу жоско
-      for i in (0..9)
-        table.setItemText(i, 0, (i+1).to_s)
-      end
-      table.setItemText(0, 1, 'Абдюков П. М.')
-      table.setItemText(1, 1, 'Крутов Я. П.')
-      table.setItemText(2, 1, 'Наговский В. К.')
-      table.setItemText(3, 1, 'Мишин М. М.')
-      table.setItemText(4, 1, 'Челов А. А.')
-      table.setItemText(5, 1, 'Абдюков П. М.')
-      table.setItemText(6, 1, 'Крутов Я. П.')
-      table.setItemText(7, 1, 'Наговский В. К.')
-      table.setItemText(8, 1, 'Мишин М. М.')
-      table.setItemText(9, 1, 'Челов А. А.')
-
-      table.setItemText(0, 2, 'LKhnfewf')
-      table.setItemText(1, 2, 'slfkj')
-      table.setItemText(2, 2, 'Yfjd')
-      table.setItemText(3, 2, 'Foenf')
-      table.setItemText(4, 2, 'LKJG')
-      table.setItemText(5, 2, 'Hhoster')
-      table.setItemText(6, 2, 'Jod')
-      table.setItemText(7, 2, 'Rnkg')
-      table.setItemText(8, 2, 'Clen')
-      table.setItemText(9, 2, 'chel')
-
-      table.setItemText(0, 3, '89055955990')
-      table.setItemText(1, 3, '89055934990')
-      table.setItemText(2, 3, '89055955945')
-      table.setItemText(3, 3, '89055958760')
-      table.setItemText(4, 3, '89055955560')
-      table.setItemText(5, 3, '89055955956')
-      table.setItemText(6, 3, '89055955453')
-      table.setItemText(7, 3, '89055955456')
-      table.setItemText(8, 3, '89055955932')
-      table.setItemText(9, 3, '89055955989')
+      # for i in (0..9)
+      #   table.setItemText(i, 0, (i+1).to_s)
+      # end
+      # table.setItemText(0, 1, 'Абдюков П. М.')
+      # table.setItemText(1, 1, 'Крутов Я. П.')
+      # table.setItemText(2, 1, 'Наговский В. К.')
+      # table.setItemText(3, 1, 'Мишин М. М.')
+      # table.setItemText(4, 1, 'Челов А. А.')
+      # table.setItemText(5, 1, 'Абдюков П. М.')
+      # table.setItemText(6, 1, 'Крутов Я. П.')
+      # table.setItemText(7, 1, 'Наговский В. К.')
+      # table.setItemText(8, 1, 'Мишин М. М.')
+      # table.setItemText(9, 1, 'Челов А. А.')
+      #
+      # table.setItemText(0, 2, 'LKhnfewf')
+      # table.setItemText(1, 2, 'slfkj')
+      # table.setItemText(2, 2, 'Yfjd')
+      # table.setItemText(3, 2, 'Foenf')
+      # table.setItemText(4, 2, 'LKJG')
+      # table.setItemText(5, 2, 'Hhoster')
+      # table.setItemText(6, 2, 'Jod')
+      # table.setItemText(7, 2, 'Rnkg')
+      # table.setItemText(8, 2, 'Clen')
+      # table.setItemText(9, 2, 'chel')
+      #
+      # table.setItemText(0, 3, '89055955990')
+      # table.setItemText(1, 3, '89055934990')
+      # table.setItemText(2, 3, '89055955945')
+      # table.setItemText(3, 3, '89055958760')
+      # table.setItemText(4, 3, '89055955560')
+      # table.setItemText(5, 3, '89055955956')
+      # table.setItemText(6, 3, '89055955453')
+      # table.setItemText(7, 3, '89055955456')
+      # table.setItemText(8, 3, '89055955932')
+      # table.setItemText(9, 3, '89055955989')
     end
 
     def get_select_rows
