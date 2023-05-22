@@ -9,13 +9,13 @@ class Data_table
     end
 
     def value(i, j)
-        return self.table[i][j]
+        self.table[i][j]
     end
 
     def to_s
         str = ""
         self.table.each {|i| str += i.to_s + "\n"}
-        return str
+        str
     end
 
     private :table, :table=

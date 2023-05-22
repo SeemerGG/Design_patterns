@@ -1,0 +1,30 @@
+@startuml
+main.rb -> FXApp: new
+main.rb <-- FXApp:
+main.rb -> StudentListView: new(app)
+StudentListView -> StudentListController: new(self)
+StudentListView <-- StudentListController
+StudentListController -> Data_List_Student_Short: new
+StudentListController -> Data_List_Student_Short: add_sub(view)
+StudentListController <-- Data_List_Student_Short:
+StudentListController -> StudentListDB: new
+StudentListDB -> StudentDBConnectingSingleton: instance
+StudentListView -> StudentListView: refresh
+StudentListView -> StudentListController: refresh_data
+StudentListController -> StudentListDB: get_k_n_student_short
+StudentListController <-- StudentListDB: get_k_n_student_short
+StudentListController -> Data_List_Student_Short: notify
+Data_List_Student_Short -> StudentListView: set_table_params
+Data_List_Student_Short <-- StudentListView: set_table_params
+Data_List_Student_Short -> StudentListView: set_table_data
+Data_List_Student_Short <-- StudentListView: set_table_data
+Data_List_Student_Short --> StudentListController:
+StudentListController --> StudentListView:
+StudentListView --> main.rb
+main.rb -> StudentListView: create
+StudentListView -> FXApp: create
+StudentListView <-- FXApp: 
+StudentListView --> main.rb:
+main.rb -> FXApp: run
+main.rb <-- FXApp: 
+@enduml

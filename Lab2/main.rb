@@ -3,6 +3,7 @@ require_relative 'models/student/student_short'
 require_relative 'models/data/data_list_student_short'
 require_relative 'models/data/data_list'
 require_relative 'models/data/data_list'
+require_relative 'models/data/data_table'
 require_relative 'models/student/student_list_txt'
 require_relative 'models/student/student_list_json'
 require_relative 'models/student/student_list_yaml'
@@ -89,3 +90,7 @@ app = FXApp.new
 StudentListView.new(app)
 app.create
 app.run
+# student_list_db = StudentListDB.new(StudentDbConnectingSingleton.instance.client)
+# student_list_db.change(1, student_list_db.get_student_by_id(5))
+# student_short = student_list_db.get_k_n_student_short_list(1, 5).get_data
+# puts student_short

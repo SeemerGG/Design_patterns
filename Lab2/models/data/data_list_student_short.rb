@@ -2,23 +2,34 @@ require_relative 'data_list'
 require_relative 'data_table'
 
 class Data_list_student_short < Data_list
-    attr_accessor :view
+    attr_accessor :subs
 
-    def initialize(view)
-        super([])
-        self.view = view
+    def initialize(mass: [])
+        super(mass)
+        self.subs = []
+    end
+
+    def add_sub(sub)
+        self.subs << sub
+    end
+
+    def delete_sub(sub)
+        self.subs.delete(sub)
     end
 
     def notify
-        self.view.set_table_params(get_names, self.mass.count)
-        self.view.set_table_data(self)
+        self.subs.each { |sub|
+            sub.set_table_params(self.get_names, self.mass.count)
+            sub.set_table_data(self.get_data)
+        }
     end
 
     def get_names
-        return ["№", "ФИО", "Гит", "Контакт"]
+        %w[№ ФИО Гит Контакт]
     end
 
+    protected
     def values(obj)
-        return [obj.fio, obj.git, obj.contact]
+        [obj.fio, obj.git, obj.contact]
     end
 end

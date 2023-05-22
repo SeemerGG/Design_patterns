@@ -23,7 +23,7 @@ class StudentShort < BasicStudent
 
     def self.parseStr(hash:)
         if(hash.keys == [:fio, :git, :contact])
-            if(fio_correct?(hash[:fio]) && git_correct?(hash[:git]) && contact_correct?(hash[:contact]))
+            if(fio_correct?(hash[:fio]) && git_correct?(hash[:git])) #&& contact_correct?(hash[:contact]))
                 return true
             else
                 raise ArgumentError, "Параметры не удовлетворяют шаблону!"

@@ -98,18 +98,28 @@ class Student < BasicStudent
         return {:fio => "#{@last_name} #{first_name[0]}. #{patronymic[0]}."}
     end 
 
+    # def getContact()
+    #     if(@telegram != nil)
+    #         return {:contact => "telegram: #{@telegram}"}
+    #     elsif(@tel_num != nil)
+    #         return {:contact => "tel_num: #{@tel_num}"}
+    #     elsif(@mail != nil)
+    #         return {:contact => "mail: #{@mail}"}
+    #     else
+    #         return {:contact => nil}
+    #     end
+    # end
     def getContact()
         if(@telegram != nil)
-            return {:contact => "telegram: #{@telegram}"}
+            return {:contact => "#{@telegram}"}
         elsif(@tel_num != nil)
-            return {:contact => "tel_num: #{@tel_num}"}
+            return {:contact => "#{@tel_num}"}
         elsif(@mail != nil)
-            return {:contact => "mail: #{@mail}"} 
+            return {:contact => "#{@mail}"}
         else
             return {:contact => nil}
         end
-    end 
-
+    end
     def getInfo()
         return JSON.generate({}.merge(getFio()).merge({:git => @git!=nil ? "#{@git}" : nil}).merge(getContact()))
     end

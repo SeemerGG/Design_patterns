@@ -5,7 +5,7 @@ include Fox
 
 class StudentListView < FXMainWindow
 
-  attr_accessor :table, :controller, :column_names, :count_entities, :data_table
+  attr_accessor :table, :controller, :column_names, :count_entities
 
     def create_label(parent,text,x,y)
       FXLabel.new(parent, text , :opts => LAYOUT_EXPLICIT,
@@ -47,11 +47,6 @@ class StudentListView < FXMainWindow
       self.column_names = column_names
       self.count_entities = whole_entities_count
     end
-
-    def set_table_data(data_table)
-      self.data_table = data_table
-    end
-
 
     def initialize(app)
       super(app, "Hello, World!", :width => 1060, :height => 400)
@@ -118,19 +113,35 @@ class StudentListView < FXMainWindow
       self.controller.refresh_data
 
       btn_back=FXButton.new(frame, "<<", :opts=> BUTTON_NORMAL|LAYOUT_EXPLICIT, :x=>0,:y=>310,:height=>30,:width=>40)
-      label_page = FXLabel.new(frame,"1",:opts=> BUTTON_INITIAL|LAYOUT_EXPLICIT,:x=>40,:y=>310,:height=>30,:width=>20)
+      label_page = FXLabel.new(frame,"#{self.controller.current_page}|#{self.controller.pages}",:opts=> BUTTON_INITIAL|LAYOUT_EXPLICIT,:x=>40,:y=>310,:height=>30,:width=>20)
       btn_next=FXButton.new(frame, ">>", :opts=> BUTTON_NORMAL|LAYOUT_EXPLICIT, :x=>60,:y=>310,:height=>30,:width=>40)
 
+      btn_next.connect(SEL_COMMAND) do |sender|
+        self.controller.next_page
+        label_page.text = "#{self.controller.current_page}|#{self.controller.pages}"
+      end
+
+      btn_back.connect(SEL_COMMAND) do |sender|
+        self.controller.prev_page
+        label_page.text = "#{self.controller.current_page}|#{self.controller.pages}"
+      end
       create_button = FXButton.new(frame,"Добавить",:opts => LAYOUT_EXPLICIT|BUTTON_NORMAL,:x=>110,:y=>310,
         :width=>80,:height=>30)
 
       update_button = FXButton.new(frame,"Обновить",:opts => LAYOUT_EXPLICIT|BUTTON_NORMAL,:x=>200,:y=>310,
         :width=>80,:height=>30)
-      
+      update_button.connect(SEL_COMMAND) do |sendler|
+        self.controller.refresh_data
+      end
       delete_button = FXButton.new(frame,"Удалить",:opts => LAYOUT_EXPLICIT|BUTTON_NORMAL,:x=>290,:y=>310,
         :width=>80,:height=>30)
       delete_button.enabled = false
-      
+
+      delete_button.connect(SEL_COMMAND) do |sendler|
+        self.controller.delete(self.table.selStartRow, self.table.selEndRow, self.table)
+        label_page.text = "#{self.controller.current_page}|#{self.controller.pages}"
+      end
+
       edit_button = FXButton.new(frame,"Изменить",:opts => LAYOUT_EXPLICIT|BUTTON_NORMAL,:x=>380,:y=>310,
         :width=>80,:height=>30)
       edit_button.enabled = false
@@ -206,6 +217,20 @@ class StudentListView < FXMainWindow
       end      
     end
 
+    def set_table_data(data_table)
+      self.table_empty
+      puts data_table.count_line
+      (0..data_table.count_line-1).each do |i|
+        (1..data_table.count_column-1).each do |j|
+          self.table.setItemText(i,j,data_table.value(i,j).to_s)
+        end
+      end
+      num = controller.current_page
+      (0..9).each do |i|
+        self.table.setItemText(i, 0, ((num-1)*10+(i+1)).to_s)
+      end
+    end
+
     def table_empty
       (0..9).each do |i|
         (0..3).each do |j|
@@ -219,4 +244,5 @@ class StudentListView < FXMainWindow
       show(PLACEMENT_SCREEN)
     end
 
+  private :table, :controller, :column_names, :count_entities, :table=, :controller=, :column_names=, :count_entities=
 end
