@@ -169,7 +169,7 @@ class Student < BasicStudent
         if(var == nil)
             @mail = var
         else
-            BasicStudent.mail_correct?(var) ? @mail = var :  (raise ArgumentError, 'Ссылка на почту не удовлетворяет шаблону!')
+            BasicStudent.mail_correct?(var) ? @mail = var :  (raise ArgumentError, "Ссылка на почту #{var} не удовлетворяет шаблону!")
         end
     end
 
